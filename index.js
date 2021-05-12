@@ -2,6 +2,8 @@ const Jimp = require('jimp');
 const path = require('path');
 const fs = require('fs');
 
+const quality = process.argv[3] ? +process.argv[3] : 60;
+
 function rename(file) {
   const irregularSymol = /[ -!$%^&*()_+|~=`{}\[\]:";'<>?,\/]/g;
   return file.replace(irregularSymol, '_').toLowerCase();
@@ -24,7 +26,7 @@ async function execute() {
         if (err) throw err;
 
         inputImg
-          .quality(60)
+          .quality(quality)
           .write(`output/${rename(file)}`);
       });
     });
