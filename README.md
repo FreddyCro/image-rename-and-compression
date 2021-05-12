@@ -1,16 +1,18 @@
 # Usage
 
-1. install
+1. Install
 
 ```shell=
 npm install
 ```
 
-3. Put all images in `input` dictionary.
-4. execute command:
+2. Put all images in `input` dictionary.
+3. Execute command:
 
 ```shell=
 npm start [quality]
 ```
 
 > for example: `npm start 80`.
+
+4. Find output files from output folder.
