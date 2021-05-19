@@ -6,7 +6,7 @@
 npm install
 ```
 
-2. Put all images in `input` dictionary.
+2. Put all images in `input` folder.
 3. Execute command:
 
 + rename and compress image
