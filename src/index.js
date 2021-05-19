@@ -1,17 +1,13 @@
 const Jimp = require('jimp');
 const path = require('path');
 const fs = require('fs');
+const { rename } = require('./utils/rename');
 
 const quality = process.argv[3] ? +process.argv[3] : 60;
 
-function rename(file) {
-  const irregularSymol = /[ -!$%^&*()_+|~=`{}\[\]:";'<>?,\/]/g;
-  return file.replace(irregularSymol, '_').toLowerCase();
-}
-
 async function execute() {
   const root = './input/';
-  const directoryPath = path.join(__dirname, root);
+  const directoryPath = path.join(__dirname, `../${root}`);
 
   //passsing directoryPath and callback function
   fs.readdir(directoryPath, (err, files) => {
@@ -28,10 +24,10 @@ async function execute() {
         inputImg
           .quality(quality)
           .write(`output/${rename(file)}`);
+        
+        console.log(`${file} success.`);
       });
     });
-
-    console.log('done.');
   });
 }
 
