@@ -43,7 +43,7 @@ const handleCompress = (quality) => {
     });
 
     Promise.all(pAll).then(() => {
-      consola.success('All files has been compressed');
+      consola.success('All files was done.');
     });
   } catch (e) {
     consola.error(e);
@@ -55,6 +55,7 @@ const runCompress = () => {
     type: 'input',
     name: 'compress quality prompt',
     message: 'Input compress quality(0~100):',
+    initial: '90',
     validate: (value) => {
       return +value >= 0 && +value <= 100;
     },
