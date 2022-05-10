@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "sh scripts/clear-output.sh && node src/index.js",
+    "init": "sh scripts/init.sh",
+    "clear": "sh scripts/clear-input.sh && sh scripts/clear-output.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

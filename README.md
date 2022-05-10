@@ -1,26 +1,29 @@
-# Usage
+# Image Rename and Compress
 
-1. Install
+## Requirements
+
+- Node.js 14.18.1
+
+## Usage
+
+### 1. Install
 
 ```shell=
 npm install
 ```
 
-2. Put all images in `input` folder.
-3. Execute command:
-
-+ rename and compress image
+### 2. Initialize
 
 ```shell=
-npm start [quality]
+npm run init
 ```
 
-> for example: `npm start 80`.
-
-+ only rename file
+### 3. Run
 
 ```shell=
-npm run rename
+npm start
 ```
 
-4. Find output files from output folder.
+1. rename: 只改檔案名稱。
+2. compress: 壓縮 jpg / png 圖片檔案。
+3. webp: 將 jpg / png 圖片轉成 webp 格式。
