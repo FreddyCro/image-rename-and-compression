@@ -1,34 +1,33 @@
-const Jimp = require('jimp');
-const path = require('path');
-const fs = require('fs');
-const { rename } = require('./utils/rename');
+import { createRequire } from 'module';
 
-const quality = process.argv[3] ? +process.argv[3] : 60;
+const require = createRequire(import.meta.url);
+const { Select } = require('enquirer');
 
-async function execute() {
-  const root = './input/';
-  const directoryPath = path.join(__dirname, `../${root}`);
+import { runRename } from './run-rename.js';
+import { runWebp } from './run-webp.js';
+import { runCompress } from './run-compress.js';
 
-  //passsing directoryPath and callback function
-  fs.readdir(directoryPath, (err, files) => {
-    //handling error
-    if (err) {
-      return console.log('Unable to scan directory: ' + err);
+const prompt = new Select({
+  name: 'Rename and compress',
+  message: 'Choose one process:',
+  choices: ['rename', 'compress', 'webp'],
+});
+
+prompt
+  .run()
+  .then((ans) => {
+    switch (ans) {
+      case 'rename':
+        runRename();
+        break;
+
+      case 'webp':
+        runWebp();
+        break;
+
+      case 'compress':
+        runCompress();
+        break;
     }
-    //listing all files using forEach
-    files.forEach(async (file) => {
-      // load local image file with jimp. It supports jpg, png, bmp, tiff and gif:
-      await Jimp.read(`${root}${file}`, (err, inputImg) => {
-        if (err) throw err;
-
-        inputImg
-          .quality(quality)
-          .write(`output/${rename(file)}`);
-        
-        console.log(`${file} success.`);
-      });
-    });
-  });
-}
-
-execute();
+  })
+  .catch(console.error);

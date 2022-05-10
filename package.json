@@ -3,14 +3,30 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "node src/index.js --quality",
-    "rename": "node src/name.js",
+    "start": "sh scripts/clear-output.sh && node src/index.js",
+    "init": "sh scripts/init.sh",
+    "clear": "sh scripts/clear-input.sh && sh scripts/clear-output.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "images",
+    "rename",
+    "compress"
+  ],
+  "author": "freddycro",
   "license": "ISC",
+  "type": "module",
   "dependencies": {
-    "jimp": "^0.16.1"
+    "@sindresorhus/slugify": "^2.1.0",
+    "chalk": "^5.0.1",
+    "consola": "^2.15.3",
+    "enquirer": "^2.3.6",
+    "fs-extra": "^10.1.0",
+    "glob": "^8.0.1",
+    "imagemin": "^8.0.1",
+    "imagemin-webp": "^7.0.0",
+    "jimp": "^0.16.1",
+    "normalize-path": "^3.0.0",
+    "path-parse": "^1.0.7"
   }
 }
