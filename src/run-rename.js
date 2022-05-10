@@ -20,25 +20,33 @@ const runRename = async () => {
   const { files } = readFiles(INPUT_DIR);
 
   try {
-    for (const file of files) {
-      const { dir, name, ext } = pathParse(file);
-      const newDir =
-        dir === INPUT_DIR ? '' : rename(dir.replace(INPUT_DIR, ''));
+    const pAll = files.map((file) => {
+      return new Promise((resolve, reject) => {
+        const { dir, name, ext } = pathParse(file);
+        const newDir =
+          dir === INPUT_DIR ? '' : rename(dir.replace(INPUT_DIR, ''));
 
-      const newName = rename2x(name);
+        const newName = rename2x(name);
 
-      await fsEx.copy(
-        file,
-        normalizePath(`${OUTPUT_DIR}/${newDir}/${newName}${ext}`),
-        async (err) => {
-          if (err) return consola.error(err);
+        fsEx.copy(
+          file,
+          normalizePath(`${OUTPUT_DIR}/${newDir}/${newName}${ext}`),
+          async (err) => {
+            if (err) return consola.error(err);
 
-          consola.log(
-            `${name}${ext} is rename to ${chalk.green(newName + ext)}`
-          );
-        }
-      );
-    }
+            console.log(
+              `${name}${ext} is rename to ${chalk.green(newName + ext)}`
+            );
+
+            resolve();
+          }
+        );
+      });
+    });
+
+    Promise.all(pAll).then(() => {
+      consola.success('All files has renamed');
+    });
   } catch (e) {
     consola.error(e);
   }
