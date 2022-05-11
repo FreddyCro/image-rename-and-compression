@@ -1,8 +1,4 @@
-import { createRequire } from 'module';
-
-const require = createRequire(import.meta.url);
-const { Select } = require('enquirer');
-
+import require from './utils/require.js';
 import fsEx from 'fs-extra';
 import pathParse from 'path-parse';
 import consola from 'consola';
@@ -11,6 +7,8 @@ import normalizePath from 'normalize-path';
 
 import { readFiles } from './utils/file.js';
 import { rename, rename2x } from './utils/rename.js';
+
+const { Select } = require('enquirer');
 
 const runRename = async () => {
   const ROOT_DIR = process.cwd();

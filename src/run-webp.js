@@ -1,8 +1,4 @@
-import { createRequire } from 'module';
-
-const require = createRequire(import.meta.url);
-const { Input } = require('enquirer');
-
+import require from './utils/require.js';
 import imagemin from 'imagemin';
 import imageminWebp from 'imagemin-webp';
 import pathParse from 'path-parse';
@@ -13,6 +9,8 @@ import Jimp from 'jimp';
 
 import { readFiles } from './utils/file.js';
 import { rename, rename2x } from './utils/rename.js';
+
+const { Input } = require('enquirer');
 
 const handleWebp = (quality) => {
   const ROOT_DIR = process.cwd();

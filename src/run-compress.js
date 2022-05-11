@@ -1,8 +1,4 @@
-import { createRequire } from 'module';
-
-const require = createRequire(import.meta.url);
-const { Input } = require('enquirer');
-
+import require from './utils/require.js';
 import pathParse from 'path-parse';
 import consola from 'consola';
 import chalk from 'chalk';
@@ -11,6 +7,8 @@ import Jimp from 'jimp';
 
 import { readFiles } from './utils/file.js';
 import { rename, rename2x } from './utils/rename.js';
+
+const { Input } = require('enquirer');
 
 const handleCompress = (quality) => {
   const ROOT_DIR = process.cwd();

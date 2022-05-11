@@ -1,11 +1,9 @@
-import { createRequire } from 'module';
-
-const require = createRequire(import.meta.url);
-const { Select } = require('enquirer');
-
+import require from './utils/require.js';
 import { runRename } from './run-rename.js';
 import { runWebp } from './run-webp.js';
 import { runCompress } from './run-compress.js';
+
+const { Select } = require('enquirer');
 
 const prompt = new Select({
   name: 'Rename and compress',
