@@ -1,3 +1,4 @@
+import fs from 'fs';
 import require from './utils/require.js';
 import imagemin from 'imagemin';
 import imageminWebp from 'imagemin-webp';
@@ -9,14 +10,31 @@ import Jimp from 'jimp';
 
 import { readFiles } from './utils/file.js';
 import { rename, rename2x } from './utils/rename.js';
+import { runRename } from './run-rename.js';
 
 const { Input } = require('enquirer');
+
+const renameOutputWebp = (file) => {
+  if (!file) return;
+
+  const { dir, name, ext } = pathParse(file);
+  const newName = rename2x(name);
+
+  try {
+    fs.renameSync(normalizePath(file), normalizePath(`${dir}/${newName}${ext}`));
+
+    console.log(
+      `${name + ext} has converted to ${chalk.green(name + '.webp')}`
+    );
+  } catch {
+    consola.error(`${file} could not be renamed`);
+  }
+};
 
 const handleWebp = (quality) => {
   const ROOT_DIR = process.cwd();
   const INPUT_DIR = normalizePath(`${ROOT_DIR}/input`);
   const OUTPUT_DIR = normalizePath(`${ROOT_DIR}/output`);
-
   const { files } = readFiles(INPUT_DIR);
 
   try {
@@ -34,11 +52,7 @@ const handleWebp = (quality) => {
           if (e.length === 0) {
             consola.error(`${chalk.red(name + ext)} was failure.`);
           } else {
-            console.log(
-              `${chalk.green(name + ext)} has converted to ${chalk.green(
-                name + '.webp'
-              )}`
-            );
+            renameOutputWebp(e[0].destinationPath);
           }
 
           resolve();
@@ -67,6 +81,7 @@ const runWebp = () => {
 
   prompt
     .run()
+    .then(() => runRename())
     .then((quality) => handleWebp(+quality))
     .catch(console.error);
 };
