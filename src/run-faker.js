@@ -87,7 +87,7 @@ const getImagesUrl = ({ type, amount, w, h, use2x }) => {
 const downloadImage = ({ url, use2x, w, h, printResolution, delay }) => {
   const ROOT_DIR = process.cwd();
   const OUTPUT_DIR = normalizePath(`${ROOT_DIR}/output`);
-  const filename = `faker_${Date.now()}`;
+  const filename = `faker_${w}x${h}_${Date.now()}`;
   const ext = '.jpg';
   const dist = normalizePath(
     `${OUTPUT_DIR}/${filename}${use2x ? '@2x' : ''}${ext}`
