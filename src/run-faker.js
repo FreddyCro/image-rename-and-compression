@@ -89,9 +89,7 @@ const downloadImage = ({ url, use2x, w, h, printResolution, delay }) => {
   const OUTPUT_DIR = normalizePath(`${ROOT_DIR}/output`);
   const filename = `faker_${w}x${h}_${Date.now()}`;
   const ext = '.jpg';
-  const dist = normalizePath(
-    `${OUTPUT_DIR}/${filename}${use2x ? '@2x' : ''}${ext}`
-  );
+  const dist = normalizePath(`${OUTPUT_DIR}/${filename}${ext}`);
 
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -101,75 +99,30 @@ const downloadImage = ({ url, use2x, w, h, printResolution, delay }) => {
           dest: dist,
         })
         .then(({ distname }) => {
-          // handle 2x
-          if (use2x === 'yes') {
-            Jimp.read(dist, (err, inputImg) => {
-              if (err) throw err;
+          Jimp.read(dist, (err, inputImg) => {
+            if (err) throw err;
 
-              inputImg
-                .scale(0.5)
-                .write(normalizePath(`${OUTPUT_DIR}/${filename}${ext}`));
+            Jimp.loadFont(Jimp.FONT_SANS_16_BLACK).then((font) => {
+              inputImg.greyscale().blur(5).brightness(0.5).quality(60);
 
               if (printResolution === 'yes') {
-                Jimp.read(dist, (err, inputImg) => {
-                  if (err) throw err;
-
-                  Jimp.loadFont(Jimp.FONT_SANS_32_BLACK).then((font) => {
-                    inputImg
-                      .scale(0.5)
-                      .greyscale()
-                      .blur(5)
-                      .brightness(0.5)
-                      .opacity(0.5)
-                      .print(font, 24, 24, {
-                        text: `${w}x${h}`,
-                        alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT,
-                        alignmentY: Jimp.VERTICAL_ALIGN_TOP,
-                      })
-                      .write(
-                        normalizePath(
-                          `${OUTPUT_DIR}/${filename}_resolution${ext}`
-                        )
-                      );
-
-                    console.log('Saved to', `${filename}_resolution${ext}`);
-                  });
-                });
+                inputImg.print(font, 10, 10, `${w}x${h}`);
               }
 
+              inputImg.write(normalizePath(`${OUTPUT_DIR}/${filename}${ext}`));
               console.log('Saved to', `${filename}${ext}`);
-            });
-          }
 
-          if (printResolution === 'yes' && use2x === 'yes') {
-            Jimp.read(dist, (err, inputImg) => {
-              if (err) throw err;
-
-              Jimp.loadFont(Jimp.FONT_SANS_32_BLACK).then((font) => {
+              if (use2x === 'yes') {
                 inputImg
-                  .greyscale()
-                  .blur(5)
-                  .brightness(0.5)
-                  .opacity(0.5)
-                  .print(font, 24, 24, {
-                    text: `${w}x${h}`,
-                    alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT,
-                    alignmentY: Jimp.VERTICAL_ALIGN_TOP,
-                  })
-                  .write(
-                    normalizePath(
-                      `${OUTPUT_DIR}/${filename}_resolution@2x${ext}`
-                    )
-                  );
+                  .scale(2)
+                  .write(normalizePath(`${OUTPUT_DIR}/${filename}@2x${ext}`));
 
-                console.log('Saved to', `${filename}_resolution@2x${ext}`);
-              });
+                console.log('Saved to', `${filename}@2x${ext}`);
+              }
+
+              resolve();
             });
-          }
-
-          resolve(
-            console.log('Saved to', `${filename}${use2x ? '@2x' : ''}${ext}`)
-          );
+          });
         })
         .catch((err) => console.error(err));
     }, delay);
