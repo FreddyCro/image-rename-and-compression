@@ -77,8 +77,7 @@ const getImagesUrl = ({ type, amount, w, h, use2x }) => {
   let images = [];
 
   for (let i = 0; i < amount; i++) {
-    if (use2x === 'yes') images.push(faker.image[type](w * 2, h * 2));
-    else images.push(faker.image[type](w, h));
+    images.push(faker.image[type](w, h));
   }
 
   return images;
