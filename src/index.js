@@ -2,6 +2,7 @@ import require from './utils/require.js';
 import { runRename } from './run-rename.js';
 import { runWebp } from './run-webp.js';
 import { runCompress } from './run-compress.js';
+import { runFFmpeg } from './run-ffmpeg.js';
 import { runFaker } from './run-faker.js';
 
 const { Select } = require('enquirer');
@@ -9,7 +10,7 @@ const { Select } = require('enquirer');
 const prompt = new Select({
   name: 'Rename and compress',
   message: 'Choose one process:',
-  choices: ['webp', 'rename', 'compress', 'faker'],
+  choices: ['webp', 'rename', 'compress', 'ffmpeg', 'faker'],
 });
 
 prompt
@@ -26,6 +27,10 @@ prompt
 
       case 'compress':
         runCompress();
+        break;
+
+      case 'ffmpeg':
+        runFFmpeg();
         break;
 
       case 'faker':
